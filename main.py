@@ -43,7 +43,12 @@ Dans le cadre d'un partenariat innovant entre **YOUrban** et la **FACT** (Fédé
 Explorez les **villes les plus recherchées** pour des locaux commerciaux. Classez les selon le **volume de recherche**, l'**interet** ou la **croissance** des recherches, en ***cliquant sur le haut de colonne***.
 """)
     df_ranking_cities = pd.read_csv("data/ranking_cities.csv").sort_values(by="Recherches sur 12 mois", ascending=False)
-    st.data_editor(df_ranking_cities[df_ranking_cities["Index d'intérêt"]!=0], use_container_width = True, hide_index=True, num_rows=8)
+    option = st.selectbox(
+    "Quelle taille de ville souhaitez vous comparer ?",
+    ("Toutes", "Grande Ville", "Moyenne Ville", "Petite Ville"),
+    )
+    df_filtered_ranking_cities = df_ranking_cities[(df_ranking_cities["Catégorie"]==option)|(option=="Toutes")][["Ville","Recherches sur 12 mois","Index d'intérêt","Croissance 2024 vs 2023"]]
+    st.data_editor(df_filtered_ranking_cities[df_filtered_ranking_cities["Index d'intérêt"]!=0], use_container_width = True, hide_index=True, num_rows=8)
     st.markdown("""
 #### 🚀 Fonctionnement :
 1. **Dashboard interactif** : Visualisez des graphiques et des statistiques pour comprendre les tendances de recherche.
@@ -84,8 +89,8 @@ Bienvenue sur le **dashboard interactif**, votre outil clé pour analyser et com
         
         col1, col2, col3 = st.columns(3)
         col1.metric("Recherches sur les 12 derniers mois", format(int(df[df["Tag"]==tags]["somme_last_12_months"]), ",").replace(",", " "))
-        col2.metric("Croissance vs 2023", str(round(float(df[df["Tag"]==tags]["growth_2023vs2024"])*100))+"%")
-        col3.metric("Croissance vs 2022", str(round(float(df[df["Tag"]==tags]["growth_2022vs2024"])*100))+"%")
+        col2.metric("Croissance 2023 vs 2024", str(round(float(df[df["Tag"]==tags]["growth_2023vs2024"])*100))+"%")
+        col3.metric("Croissance 2022 vs 2024", str(round(float(df[df["Tag"]==tags]["growth_2022vs2024"])*100))+"%")
 
 
         filtered_df = df[df["Tag"]==tags]
