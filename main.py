@@ -1,14 +1,8 @@
 # Fichier: main.py
 import streamlit as st
-import streamlit_folium
 from streamlit_searchbox import st_searchbox
 import streamlit as st
-from shapely.geometry import Point, Polygon
-import folium
-from streamlit_folium import folium_static, st_folium
 import pandas as pd
-from streamlit_searchbox import st_searchbox
-from st_aggrid import AgGrid, GridOptionsBuilder, DataReturnMode, GridUpdateMode
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
 
